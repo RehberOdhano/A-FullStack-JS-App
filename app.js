@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 
+app.use(express.static('public'));
 // now express knows where to find the our html templates
 app.set('views', 'views');
 // telling express to use ejs as a view-engine
