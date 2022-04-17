@@ -1,0 +1,25 @@
+{
+    "name": "ourapp",
+    "version": "1.0.0",
+    "description": "A FullStack JS App",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon app"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/RehberOdhano/A-FullStack-JS-App.git"
+    },
+    "keywords": [],
+    "author": "Rehber Odhano",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/RehberOdhano/A-FullStack-JS-App/issues"
+    },
+    "homepage": "https://github.com/RehberOdhano/A-FullStack-JS-App#readme",
+    "dependencies": {
+        "express": "^4.17.3",
+        "nodemon": "^2.0.15"
+    }
+}
