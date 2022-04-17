@@ -3,7 +3,7 @@ const express = require('express');
 // immediately and returns the export of that file/pkg, which will be saved
 // in the variable router in this case
 const router = require('./router');
-require('dotenv').config();
+// require('dotenv').config();
 const app = express();
 
 // it just tells the express to add the user's submitted data 
@@ -20,7 +20,9 @@ app.set('view engine', 'ejs');
 
 app.use('/', router);
 
-if (process.env.PORT == null || process.env.PORT == "") { process.env.PORT = 3000; }
-app.listen(process.env.PORT, () => {
-    console.log("SERVER IS STARTED...");
-});
+// if (process.env.PORT == null || process.env.PORT == "") { process.env.PORT = 3000; }
+// app.listen(process.env.PORT, () => {
+//     console.log("SERVER IS STARTED...");
+// });
+
+module.exports = app;
