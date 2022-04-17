@@ -3,6 +3,7 @@ const express = require('express');
 // immediately and returns the export of that file/pkg, which will be saved
 // in the variable router in this case
 const router = require('./router');
+const userController = require('./controllers/userController');
 const app = express();
 
 app.use(express.static('public'));
@@ -10,7 +11,9 @@ app.use(express.static('public'));
 app.set('views', 'views');
 // telling express to use ejs as a view-engine
 app.set('view engine', 'ejs');
-app.use('/', router);
+
+
+app.use('/', userController.home);
 
 
 app.listen(3000, () => {
