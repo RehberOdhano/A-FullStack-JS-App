@@ -3,9 +3,13 @@ const express = require('express');
 // immediately and returns the export of that file/pkg, which will be saved
 // in the variable router in this case
 const router = require('./router');
-const userController = require('./controllers/userController');
 const app = express();
 
+// it just tells the express to add the user's submitted data 
+// onto our request object, so that we can easily access that data
+// from req.body
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(express.static('public'));
 // now express knows where to find the our html templates
 app.set('views', 'views');
@@ -13,7 +17,7 @@ app.set('views', 'views');
 app.set('view engine', 'ejs');
 
 
-app.use('/', userController.home);
+app.use('/', router);
 
 
 app.listen(3000, () => {
