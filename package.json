@@ -19,6 +19,7 @@
     },
     "homepage": "https://github.com/RehberOdhano/A-FullStack-JS-App#readme",
     "dependencies": {
+        "ejs": "^3.0.2",
         "express": "^4.17.3",
         "nodemon": "^2.0.15"
     }
