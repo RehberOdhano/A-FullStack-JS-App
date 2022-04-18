@@ -50,7 +50,18 @@ User.prototype.validate = function() {
 // }
 
 User.prototype.login = function() {
-
+    // we pass an arrow function as a parameter to the promise, instead of anonymous
+    // function because, anonymous function will change the "this" keyword within it 
+    return new Promise((resolve, reject) => {
+        // here we can perform asynchronous operations - operations
+        // that are going to take some time to complete, and whenever
+        // those operations are complete, we just call resolve or reject
+        this.cleanUp();
+        usersCollection.findOne({ username: this.user_data.username }, (err, user) => {
+            if (user && user.password == this.user_data.password) resolve("Congratulations!");
+            else reject("Invalid username or password!");
+        });
+    });
 }
 
 User.prototype.register = function() {

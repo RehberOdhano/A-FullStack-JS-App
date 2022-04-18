@@ -2,8 +2,19 @@ const User = require('../models/User');
 
 exports.login = function(req, res) {
     var user = new User(req.body);
-    user.login(function(status) {
-        res.send(status);
+    // if, callback function is used
+    // user.login(function(status) {
+    //     res.send(status);
+    // });
+
+    // if promise is used
+    // this will return a promise
+    // if the promise is successfull then it'll execute the "then() block"
+    // other "catch() block"
+    user.login().then(function(result) {
+        res.send(result);
+    }).catch(function(error) {
+        res.send(error);
     });
 };
 
