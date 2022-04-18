@@ -57,9 +57,15 @@ User.prototype.login = function() {
         // that are going to take some time to complete, and whenever
         // those operations are complete, we just call resolve or reject
         this.cleanUp();
-        usersCollection.findOne({ username: this.user_data.username }, (err, user) => {
+        // usersCollection.findOne({ username: this.user_data.username }, (err, user) => {
+        //     if (user && user.password == this.user_data.password) resolve("Congratulations!");
+        //     else reject("Invalid username or password!");
+        // });
+        usersCollection.findOne({ username: this.user_data.username }).then((user) => {
             if (user && user.password == this.user_data.password) resolve("Congratulations!");
             else reject("Invalid username or password!");
+        }).catch(() => {
+            reject("ERROR...");
         });
     });
 }
