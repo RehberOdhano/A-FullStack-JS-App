@@ -7,7 +7,6 @@ const User = function(user_data) {
     this.errors = [];
 }
 
-
 User.prototype.cleanUp = function() {
     if (typeof(this.user_data.username) != "string") this.user_data.username = "";
     if (typeof(this.user_data.email) != "string") this.user_data.email = "";
@@ -63,7 +62,7 @@ User.prototype.login = function() {
         //     else reject("Invalid username or password!");
         // });
         usersCollection.findOne({ username: this.user_data.username }).then((user) => {
-            if (user && user.password == this.user_data.password) resolve("Congratulations!");
+            if (user && bcrypt.compareSync(this.user_data.password, user.password)) resolve("Congratulations!");
             else reject("Invalid username or password!");
         }).catch(() => {
             reject("ERROR...");
