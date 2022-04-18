@@ -41,15 +41,17 @@ User.prototype.validate = function() {
     }
 }
 
-User.prototype.login = function(callback) {
-    this.cleanUp();
-    // console.log(this.user_data);
-    usersCollection.findOne({ username: this.user_data.username }, (err, user) => {
-        if (user && user.password === this.user_data.password) callback("Congratulations!");
-        else callback("Invalid username or password!");
-    });
-}
+// User.prototype.login = function(callback) {
+//     this.cleanUp();
+//     usersCollection.findOne({ username: this.user_data.username }, (err, user) => {
+//         if (user && user.password == this.user_data.password) callback("Congratulations!");
+//         else callback("Invalid username or password!");
+//     });
+// }
 
+User.prototype.login = function() {
+
+}
 
 User.prototype.register = function() {
     // validating and sanitizing/cleaning the user entered data
