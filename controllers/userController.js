@@ -18,7 +18,7 @@ exports.login = function(req, res) {
         // this session data is going to be stored in the memory, which will be
         // deleted/washed out whenever the server restarts... therefore, storing
         // session data in memory isn't a good idea... to overcome this, we'll store
-        // the session data in the database
+        // the session data into the database
         req.session.user = { username: user.user_data.username }
         res.send(result);
     }).catch(function(error) {

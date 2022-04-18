@@ -20,6 +20,7 @@
     "homepage": "https://github.com/RehberOdhano/A-FullStack-JS-App#readme",
     "dependencies": {
         "bcryptjs": "^2.4.3",
+        "connect-mongo": "^4.6.0",
         "dotenv": "^16.0.0",
         "ejs": "^3.0.2",
         "express": "^4.17.3",

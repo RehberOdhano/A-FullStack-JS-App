@@ -7,8 +7,10 @@ const client = new MongoClient(URL);
 
 const connect_db = async() => {
     await client.connect();
-    const database = client.db("A-FullStack-JS-App"); // will return a db object
-    module.exports = database;
+    // const database = client.db("A-FullStack-JS-App"); // will return a db object
+    // module.exports = database;
+    const db = client;
+    module.exports = db;
     // after establishing connection to the database, we'll start our app
     const app = require('./app');
 

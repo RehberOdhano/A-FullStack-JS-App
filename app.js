@@ -1,5 +1,7 @@
 const express = require('express');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
 // require executes the provided file/pkg name and that's going to happen
 // immediately and returns the export of that file/pkg, which will be saved
 // in the variable router in this case
@@ -10,6 +12,10 @@ const app = express();
 // setting/configuring the sessions
 var sessionOptions = session({
     secret: "FullStack JavaScript",
+    // by default, session pkg store the session data in memory,
+    // but we're overwriting that property here to store the session
+    // data in the mongo database
+    store: MongoStore.create({ client: require('./db') }),
     resave: false,
     saveUninitialized: false,
     cookie: {

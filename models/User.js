@@ -1,6 +1,8 @@
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const usersCollection = require('../db').collection('users');
+// because I changed the module.exports in the db.js file this doesn't work now
+// const usersCollection = require('../db').collection('users');
+const db = require('../db').db();
 
 const User = function(user_data) {
     this.user_data = user_data;
@@ -61,7 +63,7 @@ User.prototype.login = function() {
         //     if (user && user.password == this.user_data.password) resolve("Congratulations!");
         //     else reject("Invalid username or password!");
         // });
-        usersCollection.findOne({ username: this.user_data.username }).then((user) => {
+        db.collection('users').findOne({ username: this.user_data.username }).then((user) => {
             if (user && bcrypt.compareSync(this.user_data.password, user.password)) resolve("Congratulations!");
             else reject("Invalid username or password!");
         }).catch(() => {
@@ -81,7 +83,8 @@ User.prototype.register = function() {
         // hash user password
         var salt = bcrypt.genSaltSync(10);
         this.user_data.password = bcrypt.hashSync(this.user_data.password, salt);
-        usersCollection.insertOne(this.user_data);
+        // usersCollection.insertOne(this.user_data);
+        db.collection('users').insertOne(this.user_data);
     }
 
 }
