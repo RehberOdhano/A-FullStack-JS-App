@@ -1,4 +1,5 @@
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 const usersCollection = require('../db').collection('users');
 
 const User = function(user_data) {
@@ -78,6 +79,9 @@ User.prototype.register = function() {
     // if there are no validation errors only then
     // save user data to the database
     if (!this.errors.length) {
+        // hash user password
+        var salt = bcrypt.genSaltSync(10);
+        this.user_data.password = bcrypt.hashSync(this.user_data.password, salt);
         usersCollection.insertOne(this.user_data);
     }
 
