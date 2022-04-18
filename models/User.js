@@ -6,6 +6,7 @@ const User = function(user_data) {
     this.errors = [];
 }
 
+
 User.prototype.cleanUp = function() {
     if (typeof(this.user_data.username) != "string") this.user_data.username = "";
     if (typeof(this.user_data.email) != "string") this.user_data.email = "";
@@ -39,6 +40,16 @@ User.prototype.validate = function() {
         this.errors.push("Username can't exceed 10 characters!");
     }
 }
+
+User.prototype.login = function(callback) {
+    this.cleanUp();
+    // console.log(this.user_data);
+    usersCollection.findOne({ username: this.user_data.username }, (err, user) => {
+        if (user && user.password === this.user_data.password) callback("Congratulations!");
+        else callback("Invalid username or password!");
+    });
+}
+
 
 User.prototype.register = function() {
     // validating and sanitizing/cleaning the user entered data

@@ -1,10 +1,13 @@
 const User = require('../models/User');
 
-exports.login = () => {
-
+exports.login = function(req, res) {
+    var user = new User(req.body);
+    user.login(function(status) {
+        res.send(status);
+    });
 };
 
-exports.logout = () => {
+exports.logout = function() {
 
 };
 
