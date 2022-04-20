@@ -34,7 +34,7 @@ exports.register = (req, res) => {
     var user = new User(req.body);
     user.register();
     if (user.errors.length) res.send(user.errors);
-    else res.send("Successfully registered!");
+    else res.render("/views/home-logged-in-no-results");
 };
 
 exports.home = (req, res) => {
