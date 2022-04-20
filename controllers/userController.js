@@ -20,21 +20,21 @@ exports.login = function(req, res) {
         // session data in memory isn't a good idea... to overcome this, we'll store
         // the session data into the database
         req.session.user = { username: user.user_data.username }
-        res.send(result);
+        req.session.save(() => res.redirect('/'));
     }).catch(function(error) {
         res.send(error);
     });
 };
 
-exports.logout = function() {
-
+exports.logout = function(req, res) {
+    req.session.destroy(() => res.redirect('/'));
 };
 
 exports.register = (req, res) => {
     var user = new User(req.body);
     user.register();
     if (user.errors.length) res.send(user.errors);
-    else res.render("home-dashboard");
+    else res.render("home-dashboard", { username: req.session.user.username });
 };
 
 exports.home = (req, res) => {
