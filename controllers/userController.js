@@ -34,14 +34,15 @@ exports.register = (req, res) => {
     var user = new User(req.body);
     user.register();
     if (user.errors.length) res.send(user.errors);
-    else res.render("/views/home-logged-in-no-results");
+    else res.render("home-dashboard");
 };
 
 exports.home = (req, res) => {
     // if the current visitor has session data associated with it
     // then the visitor should not go to the signup page
     if (req.session.user) {
-        res.send("Welcome to our website");
+        // console.log(req.session.user);
+        res.render("home-dashboard", { username: req.session.user.username });
     } else {
         res.render('home-guest');
     }
