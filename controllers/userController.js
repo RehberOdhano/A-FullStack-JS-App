@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const { use } = require('../router');
 
 exports.login = function(req, res) {
     var user = new User(req.body);
@@ -47,8 +48,14 @@ exports.logout = function(req, res) {
 exports.register = (req, res) => {
     var user = new User(req.body);
     user.register();
-    if (user.errors.length) res.send(user.errors);
-    else res.render("home-dashboard", { username: req.session.user.username });
+    if (user.errors.length) {
+        user.errors.forEach(function(error) {
+            req.flash('reg_errors', error);
+        });
+        req.session.save(function() {
+            res.render('home-guest', { reg_errors: req.flash('reg_errors') });
+        });
+    } else res.render("home-dashboard", { username: req.session.user.username });
 };
 
 exports.home = (req, res) => {
