@@ -47,15 +47,19 @@ exports.logout = function(req, res) {
 
 exports.register = (req, res) => {
     var user = new User(req.body);
-    user.register();
-    if (user.errors.length) {
-        user.errors.forEach(function(error) {
+    user.register().then(() => {
+        req.session.user = { username: user.user_data.username };
+        req.session.save(function() {
+            res.redirect('/');
+        });
+    }).catch((reg_errors) => {
+        reg_errors.forEach(function(error) {
             req.flash('reg_errors', error);
         });
         req.session.save(function() {
-            res.render('home-guest', { reg_errors: req.flash('reg_errors') });
+            res.redirect('/');
         });
-    } else res.render("home-dashboard", { username: req.session.user.username });
+    });
 };
 
 exports.home = (req, res) => {
@@ -70,7 +74,7 @@ exports.home = (req, res) => {
         // that flash message from the session data... and all this is done automatically
         // by the flash package... so as soon we access it, it'll also going to delete it
         // from the session
-        res.render('home-guest', { errors: req.flash('errors') });
+        res.render('home-guest', { errors: req.flash('errors'), reg_errors: req.flash('reg_errors') });
 
     }
 };
