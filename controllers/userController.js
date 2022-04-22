@@ -20,7 +20,7 @@ exports.login = function(req, res) {
         // deleted/washed out whenever the server restarts... therefore, storing
         // session data in memory isn't a good idea... to overcome this, we'll store
         // the session data into the database
-        req.session.user = { username: user.user_data.username }
+        req.session.user = { username: user.user_data.username, avatar: user.avatar }
         req.session.save(() => res.redirect('/'));
     }).catch(function(error) {
         // flash pkg is going to add a flash object onto the request object
@@ -48,7 +48,7 @@ exports.logout = function(req, res) {
 exports.register = (req, res) => {
     var user = new User(req.body);
     user.register().then(() => {
-        req.session.user = { username: user.user_data.username };
+        req.session.user = { username: user.user_data.username, avatar: user.avatar };
         req.session.save(function() {
             res.redirect('/');
         });
@@ -67,7 +67,7 @@ exports.home = (req, res) => {
     // then the visitor should not go to the signup page
     if (req.session.user) {
         // console.log(req.session.user);
-        res.render("home-dashboard", { username: req.session.user.username });
+        res.render("home-dashboard", { username: req.session.user.username, avatar: req.session.user.avatar });
     } else {
         // so, as we want to show the error message to the user only once, when
         // the user typed the wrong username or password, therefore, we'll delete

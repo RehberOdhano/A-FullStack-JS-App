@@ -1,5 +1,6 @@
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
+const md5 = require('md5');
 // because I changed the module.exports in the db.js file this doesn't work now
 // const usersCollection = require('../db').collection('users');
 const db = require('../db').db();
@@ -81,8 +82,11 @@ User.prototype.login = function() {
         //     else reject("Invalid username or password!");
         // });
         db.collection('users').findOne({ username: this.user_data.username }).then((user) => {
-            if (user && bcrypt.compareSync(this.user_data.password, user.password)) resolve("Congratulations!");
-            else reject("Invalid username or password!");
+            if (user && bcrypt.compareSync(this.user_data.password, user.password)) {
+                this.user_data = user;
+                this.getAvatar();
+                resolve("Congratulations!");
+            } else reject("Invalid username or password!");
         }).catch(() => {
             reject("ERROR...");
         });
@@ -103,9 +107,14 @@ User.prototype.register = function() {
             this.user_data.password = bcrypt.hashSync(this.user_data.password, salt);
             // usersCollection.insertOne(this.user_data);
             await db.collection('users').insertOne(this.user_data);
+            this.getAvatar();
             resolve();
         } else reject(this.errors);
     });
+}
+
+User.prototype.getAvatar = function() {
+    this.avatar = `https://gravatar.com/avatar/${md5(this.user_data.email)}?s=128`;
 }
 
 module.exports = User;
