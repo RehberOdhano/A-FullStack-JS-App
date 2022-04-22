@@ -1,6 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const flash = require('connect-flash');
 
 // require executes the provided file/pkg name and that's going to happen
 // immediately and returns the export of that file/pkg, which will be saved
@@ -25,6 +26,7 @@ var sessionOptions = session({
 });
 
 app.use(sessionOptions);
+app.use(flash());
 
 // it just tells the express to add the user's submitted data 
 // onto our request object, so that we can easily access that data

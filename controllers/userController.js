@@ -22,7 +22,21 @@ exports.login = function(req, res) {
         req.session.user = { username: user.user_data.username }
         req.session.save(() => res.redirect('/'));
     }).catch(function(error) {
-        res.send(error);
+        // flash pkg is going to add a flash object onto the request object
+        // the first argument is the name of the collection/array of messages
+        // that we want to display and the second argument is the actual message
+        // that we want to add to the collection
+
+        // this line of code is going to modify the session data and that's
+        // going to require a trip to the database, which can take some time,
+        // we want to be sure to not perform the redirect until that database
+        // has actually completed. So, we'll manually save our session data
+        // and provided a callback function, which is called once the it actually
+        // updates the session data in the database
+        req.flash('errors', error);
+        req.session.save(function() {
+            res.redirect('/');
+        });
     });
 };
 
@@ -44,6 +58,12 @@ exports.home = (req, res) => {
         // console.log(req.session.user);
         res.render("home-dashboard", { username: req.session.user.username });
     } else {
-        res.render('home-guest');
+        // so, as we want to show the error message to the user only once, when
+        // the user typed the wrong username or password, therefore, we'll delete
+        // that flash message from the session data... and all this is done automatically
+        // by the flash package... so as soon we access it, it'll also going to delete it
+        // from the session
+        res.render('home-guest', { errors: req.flash('errors') });
+
     }
 };
